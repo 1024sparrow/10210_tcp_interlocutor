@@ -16,7 +16,22 @@ Author: boris.
 }
 
 state = 0; // interactive mode
+let falseSymbols = 0;
 readline.emitKeypressEvents(process.stdin);
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+rl.on('line', (p_line)=>{
+	if (state === 0){
+		return;
+	}
+	console.log(`line(${p_line})`);
+	//rl.close();
+	state = 0;
+	process.stdin.setRawMode(true);
+	//process.stdin.on('keypress', (str, key)=>{console.log('123456');});
+});
 process.stdin.setRawMode(true);
 process.stdin.on('keypress', (str, key)=>{
 	if (state === 1){
@@ -30,20 +45,9 @@ process.stdin.on('keypress', (str, key)=>{
 		process.stdout.write(helpMessages.general);
 	}
 	else if (key.name === '1'){
-		process.stdout.write('1111\n');
 		process.stdin.setRawMode(false);
 
-		const rl = readline.createInterface({
-			input: process.stdin,
-			output: process.stdout
-		});
 		state = 1;
-		rl.on('line', (p_line)=>{
-			console.log(`line(${p_line})`);
-			rl.close();
-			state = 0;
-			process.stdin.setRawMode(true);
-		});
 	}
 });
 
