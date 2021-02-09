@@ -15,9 +15,13 @@ Author: boris.
 	//else if (arg === '--')
 }
 
+state = 0; // interactive mode
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
 process.stdin.on('keypress', (str, key)=>{
+	if (state === 1){
+		return;
+	}
 	if ((key.ctrl && key.name === 'c') || key.name === 'q'){
 		process.stdout.write('\n');
 		process.exit();
@@ -27,6 +31,19 @@ process.stdin.on('keypress', (str, key)=>{
 	}
 	else if (key.name === '1'){
 		process.stdout.write('1111\n');
+		process.stdin.setRawMode(false);
+
+		const rl = readline.createInterface({
+			input: process.stdin,
+			output: process.stdout
+		});
+		state = 1;
+		rl.on('line', (p_line)=>{
+			console.log(`line(${p_line})`);
+			rl.close();
+			state = 0;
+			process.stdin.setRawMode(true);
+		});
 	}
 });
 
@@ -35,10 +52,4 @@ process.stdin.on('keypress', (str, key)=>{
 //while (command !== 'q'){
 //	command = readline
 //}
-//const rl = readline.createInterface({
-//	input: process.stdin,
-//	output: process.stdout
-//});
-//rl.on('line', (p_line)=>{
-//	console.log(`line(${p_line})`);
-//});
+
