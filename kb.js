@@ -52,8 +52,8 @@ Kb.prototype.setIntercative = function(p_interactive){
 
 Kb.prototype.setCharCallback = function(p_function, p_scope){
 	if (p_scope) {
-		this._fCharCallback = function(p2_char){
-			p_function.call(p_function, p2_char);
+		this._fCharCallback = function(p2_str, p2_key){
+			p_function.call(p_scope, p2_str, p2_key);
 		};
 	}
 	else {
@@ -64,7 +64,7 @@ Kb.prototype.setCharCallback = function(p_function, p_scope){
 Kb.prototype.setLineCallback = function(p_function, p_scope){
 	if (p_scope) {
 		this._fLineCallback = function(p2_line){
-			p_function.call(p_function, p2_line);
+			p_function.call(p_scope, p2_line);
 		};
 	}
 	else {
