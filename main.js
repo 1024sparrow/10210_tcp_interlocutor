@@ -7,9 +7,7 @@ const helpMessages = require('./helpMessages.js');
 let state = 0;
 for (const arg of process.argv.slice(2)){
 	if (arg === '--help'){
-		console.log(`MpAsdc client. Test application.
-Author: boris.
-`);
+		process.stdout.write(helpMessages.general);
 		process.exit(0)
 	}
 	//else if (arg === '--')
@@ -26,25 +24,36 @@ rl.on('line', (p_line)=>{
 	if (state === 0){
 		return;
 	}
-	console.log(`line(${p_line})`);
+	const line = p_line.slice(falseSymbols);
+	falseSymbols = 0;
+	console.log(`line(${line})`);
 	//rl.close();
 	state = 0;
 	process.stdin.setRawMode(true);
 	//process.stdin.on('keypress', (str, key)=>{console.log('123456');});
 });
+
 process.stdin.setRawMode(true);
 process.stdin.on('keypress', (str, key)=>{
+
 	if (state === 1){
+		//if (key.name.length === 1 && !key.ctrl && !key.meta){
 		return;
 	}
+	if ((key.name.length === 1 || [].indexOf(key.name) >= 0) && !key.ctrl && !key.meta){
+		++falseSymbols;
+	}
+
+	//console.log('Key pressed: ', str, key);
 	if ((key.ctrl && key.name === 'c') || key.name === 'q'){
 		process.stdout.write('\n');
 		process.exit();
 	}
 	if (key.name === 'h') {
-		process.stdout.write(helpMessages.general);
+		process.stdout.write(helpMessages.generalInstant);
 	}
 	else if (key.name === '1'){
+		process.stdout.write('\n');
 		process.stdin.setRawMode(false);
 
 		state = 1;

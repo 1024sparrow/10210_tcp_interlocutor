@@ -1,34 +1,43 @@
 #!/usr/bin/node
 
+const path = require('path');
+
 module.exports = {
-	general: `
+
+	general: `Prerecorded messages player.
+SINOPSYS:
+	<PATH TO ...>${path.basename(process.argv[1])} [--config <PATH TO CONFIG>] [--help]
+
+--config <PATH TO CONFIG>
+	specify path to config file
+
+After start
+===========
+press 'q' to quit,
+press 'h' to instant help,
+press '1' to add new record,
+press Letter (from the set of prerecordedMessages) to post corresponding message to the server
+
+CONFIG-file format (JSON)
+=========================
+{
+	"serverHost": "192.168.1.123",
+	"port": "1234",
+	"prerecordedMessages": {
+		"q": "SOME MESSAGE TO SERVER",
+		"w": "SOME MESSAGE TO SERVER"
+	}
+}
+
+Author: Boris Vasilyev.
+`,
+
+	generalInstant: `
 ************************
 * q - quit
 * h - instant help
-* space - pause/resume
-* PgUp/PgDn - quick jump to the previous/next paragraph respectively
-* backspace - stop and show whole book's contents
-* s - begin setting sound settings up
-*   u - speed 40%
-*   i - speed 80%
-*   o - speed 100%
-*   p - speed 120%
-*   j - shift 3s
-*   k - shift 1s
-*   l - null shift
-*   Esc - quit sound setting settings mode
-* 
-
-* Alt + 1 - highlighting for sound
-* Alt + 2 - highlighting for translation
-
-movings in time forward and backward
-
-j - join with previous paragraph
-s - split. And replay current chunk.
-
-
-
+* <1> - record new record
 ************************
 `
+
 };
