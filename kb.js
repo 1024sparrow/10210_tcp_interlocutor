@@ -16,7 +16,25 @@ function Kb(){
 	var self = this; // boris e
 	rl.on('line', (p_line)=>{
 		if (self._state === 0)
+			return;
+
+		const line = p_line.slice(self._falseSymbols);
+		self._falseSymbols = 0;
+		if (self._fLineCallback)
+			self._fLineCallback(line);
+		self.setIntercative(true);
 	});
+	self.setIntercative(true);
+	process.stdin.on('keypress', (str, key)=>{
+		if (self._state === 1)
+			return;
+
+		if (key.name.length === 1 && !key.ctrl && !key.meta){
+			++self._falseSymbols;
+		}
+		if (self._fCharCallback)
+			self._fCharCallback(str, key);
+	})
 };
 
 Kb.prototype.setIntercative = function(p_interactive){
