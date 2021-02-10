@@ -68,7 +68,7 @@ Kb.prototype.setLineCallback = function(p_function, p_scope){
 		};
 	}
 	else {
-		this._fCharCallback = p_function;
+		this._fLineCallback = p_function;
 	}
 };
 
